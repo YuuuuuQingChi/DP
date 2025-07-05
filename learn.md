@@ -1,0 +1,5 @@
+使用dir函数可以看到package里面有什么东西哦
+使用help（）函数可以看到怎么使用这些东西
+jupyter lab启动jupyter 没啥用
+os全称为Operating System，这个模块提供了与操作系统交互的各种函数，我们可以通过这些函数调用计算机底层操作系统的部分功能来快速、高效地管理文件和目录。os 库在数据处理中一个比较常见的功能是批量读取文件路径。
+os.path.join(self.data_root,self.data_label)手动拼接路径
