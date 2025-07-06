@@ -1,5 +1,5 @@
 from torch.utils.data import Dataset
-import cv2
+from PIL import Image
 import os
 class DataTest(Dataset):
     
@@ -12,11 +12,15 @@ class DataTest(Dataset):
     def __getitem__(self, index):
         image_name = self.image_path[index]
         image_path = os.path.join(self.data_root,self.data_label,image_name)
-        image = cv2.imread(image_path)
+        image = Image.open(image_path)
         label = self.data_label
         return image, label
     
     def __len__(self):
         return len(self.image_path)
 
-test = DataTest("hymenoptera_data/train","ants")
+ants_dataset = DataTest("hymenoptera_data/train","ants")
+bees_dataset = DataTest("hymenoptera_data/train","bees")
+traindataset = ants_dataset + bees_dataset
+image, label = traindataset[123]
+image.show()
