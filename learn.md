@@ -25,7 +25,7 @@ SummaryWriter 是 TensorBoard 在 PyTorch 中的接口，它能够将训练过�
             "icon": "terminal-cmd"
         },
 生成文件后想可视化，会采用命令，tensorboard --logdir=logs --port = 6006，logdir的名字必须和你SummaryWriter这个类的名字对应，port是端口号避免冲突
-## add_scalar
+## add_scalar（scalar标量）
 ```python
      writer = SummaryWriter("logs") # 日志文件存储位置
     for i in range(100):
@@ -45,6 +45,8 @@ SummaryWriter 是 TensorBoard 在 PyTorch 中的接口，它能够将训练过�
                                                 'tanx': np.tan(i/r)}, i)
     writer.close()
     ```
-## 打印图片格式
+## 打印图片格式并且转化image格式为ndarray
 image_array = np.array(image)
 print(image_array.shape)
+
+# 关于tensor（张量）
