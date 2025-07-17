@@ -7,10 +7,14 @@ os全称为Operating System，这个模块提供了与操作系统交互的各�
 os.path.join(self.data_root,self.data_label)手动拼接路径
 当我们得到一个数据集时，Dataset类可以帮我们提取我们需要的数据，我们用子类继承Dataset类，我们先给每个数据一个编号（idx），在后面的神经网络中，初始化Dataset子类实例后，就可以通过这个编号去实例对象中读取相应的数据，会自动调用__getitem__方法，同时子类对象也会获取相应真实的Label（人为去复写即可）
 # 关于dataset类
+dataset就是告诉我们程序什么数据集在什么地方，它也有对应的标签，也分类，定义了数据的来源、结构和如何访问单个数据样本。
+
 ants_dataset = DataTest("hymenoptera_data/train","ants")
 bees_dataset = DataTest("hymenoptera_data/train","bees")
 traindataset = ants_dataset + bees_dataset
+
 image, label = traindataset[123]
+
 数据集也可以相加，相当于数组拼接
 classes类别：用来分类的
 class_to_idx：用来索引分类的标签的，分几种类，这个参就有几个
@@ -26,6 +30,9 @@ class_to_idx：用来索引分类的标签的，分几种类，这个参就有�
         self.class_to_idx = {cls: i for i, cls in enumerate(self.classes)}
 ```
 但是我自定义数据集它通常会按照我文件夹的命名，自动生成classes，当然你也可以手动设置
+
+![alt text](image.png)
+
 # 关于tensorboard
 SummaryWriter 是 TensorBoard 在 PyTorch 中的接口，它能够将训练过程中的数据转化为 TensorBoard 支持的格式进行可视化。首先，需要创建 SummaryWriter 的实例，指定日志文件的存储路径：
 
@@ -174,3 +181,23 @@ print(target)
 print(test_set.classes[target])
 img.show()
 ```
+这个target返回的就是所属的classes
+
+## 关于dataloader类
+名词解释
+epoch：把所有的样本都过一遍，仅仅一遍，在一次epoch的时候，训练算法会按照顺序将所有样本进行前向传播、计算损失、反向传播、参数更新等行为，一次epoch更新了一次参数
+batch：表示为批次，为一次输入模型的一组样本数量，往往一个dataset的内容很多，如果我们一次全部输入，电脑要卡死了，所以我们分批次传入，效果是有一样的，具体一次样本数量有多少，还要看batch_size
+iteration、step：表示为迭代，只模型对全部数据进行了一次epoch后进行了一次数据更新
+
+之前用dataset加载了数据集，不管是来自官方源的下载，还是我们自定义数据集。
+但是我们只是给他们加载出来了，但是我们提取还是不方便，所以pytorch提供了dataloader给我们使用
+接下来以摸扑克牌为例，讲解dataloader的参数
+首先我们用dataset把54张扑克牌洗入牌库，我要每次摸牌要通过dataloader
+1. dataset,唯一必须要指定的参数，
+2. batch_size一次性输入模型的样本数量
+3. shuffle 设为 True 时会在每个epoch重新打乱数据（默认为 False）
+4. sampler
+5. batch_sampler
+6. num_workers 进程数量，用于提高加载数据的效率 ``0`` means that the data will be loaded in the main process.
+windows下这个稍微有点问题 ，如果你是多线程，报错BrokenpipeError，那么你只好换成单线程
+7. drop_last 这个举个例子，如果我的样本数量是1000，我的batch_size是3，那么意味着我最后一定剩1个，如果这个 drop_last设置为true，那么会舍弃掉最后一个，如果为false，那么最后一个会比较少
