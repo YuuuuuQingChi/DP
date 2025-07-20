@@ -86,10 +86,10 @@ transform的结构就是：它本身是一个工具箱，它里面有一堆的�
 trans_totensor = transforms.ToTensor()
 img_tensor = trans_totensor(img)
 ```
-**在TOtensor的时候像素范围已经从0-255变成0-1了**
+**在Totensor的时候像素范围已经从0-255变成0-1了**
 ## transforms.ToPILImage()
 这个不常用，用法应该跟Totensor差不多的
-## transforms.Compose()
+## transforms.Compose()o
 它是 PyTorch 中组织图像预处理流程的核心工具。
 用途：按顺序组合多个变换，保证数据输入的一致性。
 典型流程：尺寸调整 → 数据增强 → 转 Tensor → 归一化。
